@@ -401,4 +401,5 @@ Este repositorio contiene el código solciitado como pueba técnica, a continuac
 
 El códgio se encuentran alojado en el siguiente servidor de Heroku: https://pruebatecnica7.herokuapp.com
 
-El código también se encuentra alojado en el siguiente repositorio, donde está en una rama secundaria: 
+El código también se encuentra alojado en el siguiente repositorio, donde está en una rama secundaria: https://github.com/galigaribaldi/PruebaTecnica/tree/Prueba_Cura
+
