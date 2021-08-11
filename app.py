@@ -12,9 +12,6 @@ def hello():
 
 @app.route("/api")
 def api():
-    dicccionario = operaciones.consulta()
-    #dic2={"API":[]}
-    #dic2["API"] =dicccionario
-    return dicccionario[1]
+    return "API"
 if __name__ == "__main__":
     app.run(debug=True,port=5003)

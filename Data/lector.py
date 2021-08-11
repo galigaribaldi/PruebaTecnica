@@ -1,102 +1,61 @@
+from modelsData import ModelsData
 import pandas as pd
-def cargaCA(nombreArchivo):
-    xls = pd.ExcelFile(nombreArchivo)
-    Carga = xls.parse('Centros de Acopio - Colaborativ')
+def CargaDatos():
+    xls = pd.ExcelFile("Jalisco2.xls")
+    Carga = xls.parse('Jalisco')
     Carga = Carga.fillna(0)
-    ids = (Carga['id'])
-    nombre = (Carga['Nombre del centro de acopio'])
-    tipo_ca = (Carga['Tipo'])
-    necesidades = (Carga['Necesidades'])
-    horario = (Carga['Horarios'])
-    tipo_detalles = (Carga['Tipo de Centro de Acopio'])
-    est = (Carga['Estatus'])
-    verifica = (Carga['Verificado por'])
-    fecha_creacion = (Carga['Fecha de creación'])
-    ultima_actualizacion = (Carga['Última actualización'])
-    actu_po = (Carga['Actualizado por'])
-    nota_actualiza = (Carga['Nota actualización'])
-    listaF = []
-    listaA = []
-    for i in range(len(ids)):
-        if ids[i]>0:
-            listaA.append(ids[i]);listaA.append(str(nombre[i]))
-            listaA.append(str(tipo_ca[i]));listaA.append(str(necesidades[i]))
-            listaA.append(str(horario[i]));listaA.append(str(tipo_detalles[i]))
-            listaA.append(str(est[i]));listaA.append(str(verifica[i]))
-            listaA.append(str(fecha_creacion[i]));listaA.append(str(ultima_actualizacion[i]))
-            listaA.append(str(actu_po[i]));listaA.append(str((nota_actualiza[i])))
-            for j in range(len(listaA)):
-                if type(listaA[j]) == str:
-                    if len(listaA[j])>39:
-                        listaA[j]=listaA[j][:39]                        
-            listaF.append(tuple(listaA))
-            listaA = []
-    return tuple(listaF)
+    ###Colonia
+    codigo_postal_colonia = (Carga['d_codigo'])
+    nombre_colonia = (Carga['d_asenta'])
+    tipo_asentamiento_colonia = (Carga['d_tipo_asenta'])
+    codigo_postal_admin_colonia = (Carga['d_CP'])
+    clave_asentamiento_colonia = (Carga['c_tipo_asenta'])
+    id_asentamiento_colonia = (Carga['id_asenta_cpcons'])
+    zona_colonia = (Carga['d_zona'])
+    ###municipio
+    nombre_municipio = (Carga['D_mnpio'])
+    nombre_ciudad_municipio = (Carga['d_ciudad'])
+    clave_municipio = (Carga['c_mnpio'])
+    clave_ciudad_municipio = (Carga['c_cve_ciudad'])
+    ###Estado
+    nombre_estado = (Carga['d_estado'])
+    clave_estado = (Carga['c_estado'])
+    inicial =0;final=99;tam = len(nombre_estado)
+    carga = ModelsData()
+    print(tam)
+    while tam >100:
+        ###generacion de tuplas para  estado
+        tuplaEstado = tuple([tuple([int(i),nombre_estado[i],int(clave_estado[i])]) for i in range(inicial, final)])
+        ###Generacion de Municipio
+        tuplaMunicipio = tuple([tuple([int(i),nombre_municipio[i],nombre_ciudad_municipio[i], int(clave_municipio[i]),int(clave_ciudad_municipio[i]), int(i)]) for i in range(inicial, final)])
+        ###Generacion de Colonia
+        tuplaColonia = tuple([tuple([int(i),int(codigo_postal_colonia[i]),nombre_colonia[i], tipo_asentamiento_colonia[i],int(codigo_postal_admin_colonia[i]), int(clave_asentamiento_colonia[i]),int(id_asentamiento_colonia[i]),zona_colonia[i],int(i),int(i)]) for i in range(inicial, final)])
+        inicial = inicial+99
+        final = final+99
+        tam = tam-99
+        carga.insertEstado_batch(tuplaEstado)
+        print("Cargando Encuestado: ", len(tuplaEstado))
+        carga.insertMunicipio_batch(tuplaMunicipio)
+        print("Cargando Municipio: ", len(tuplaMunicipio))        
+        carga.insertColonia_batch(tuplaColonia)
+        print("Cargando Colonia: ", len(tuplaColonia))        
+    if tam<=99:
+        ###generacion de tuplas para  estado
+        tuplaEstado = tuple([tuple([int(i),nombre_estado[i],int(clave_estado[i])]) for i in range(inicial, final)])
+        ###Generacion de Municipio
+        tuplaMunicipio = tuple([tuple([int(i),nombre_municipio[i],nombre_ciudad_municipio[i], int(clave_municipio[i]),int(clave_ciudad_municipio[i]), int(i)]) for i in range(inicial, final)])
+        ###Generacion de Colonia
+        tuplaColonia = tuple([tuple([int(i),int(codigo_postal_colonia[i]),nombre_colonia[i], tipo_asentamiento_colonia[i],int(codigo_postal_admin_colonia[i]), int(clave_asentamiento_colonia[i]),int(id_asentamiento_colonia[i]),zona_colonia[i],int(i),int(i)]) for i in range(inicial, final)])
+        carga.insertEstado_batch(tuplaEstado)
+        print("Cargando Encuestado: ", len(tuplaEstado))
+        carga.insertMunicipio_batch(tuplaMunicipio)
+        print("Cargando Municipio: ", len(tuplaMunicipio))        
+        carga.insertColonia_batch(tuplaColonia)
+        print("Cargando Colonia: ", len(tuplaColonia))
 
-#c = cargaCA('datos.xlsx')
-#print(c)
-def cargaU(nombreArchivo):
-    xls = pd.ExcelFile(nombreArchivo)
-    Carga = xls.parse('Centros de Acopio - Colaborativ')
-    Carga = Carga.fillna(0)
-    ids = (Carga['id'])
-    id2 = (Carga['ID2'])#; id2 = int(id2[1:])+100
-    telef = (Carga['Teléfono'])
-    twitt = (Carga['Twitter'])
-    fb = (Carga['Facebook'])
-    correo = (Carga['Correo'])
-    listaF = []
-    listaA = []
-    for i in range(len(ids)):
-        if ids[i]>0:
-            listaA.append(i);listaA.append(str(telef[i]))
-            listaA.append(str(twitt[i]));listaA.append(str(fb[i]))
-            listaA.append(str(correo[i]));listaA.append(ids[i])
-            for j in range(len(listaA)):
-                if type(listaA[j]) == str:
-                    if len(listaA[j])>39:
-                        listaA[j]=listaA[j][:39]                        
-            listaF.append(tuple(listaA))
-            listaA = []
-            
-    return tuple(listaF)
-
-#c = cargaU('datos.xlsx')
-#print(c)
-
-def cargaUb(nombreArchivo):
-    xls = pd.ExcelFile(nombreArchivo)
-    Carga = xls.parse('Centros de Acopio - Colaborativ')
-    Carga = Carga.fillna(0)
-    ids = (Carga['id'])
-    id2 = (Carga['ID2'])#; id2 = int(id2[1:])+101
-    num_ext = (Carga['numero_exterior'])
-    colonia = (Carga['colonia'])
-    deleg = (Carga['delegacion o municipio'])
-    ciudad = (Carga['Ciudad'])
-    ent = (Carga['Entidad'])
-    zon = (Carga['Zona'])
-    direccion = (Carga['Dirección (agregada)'])
-    lat = (Carga['lat'])
-    alt = (Carga['lon'])
-    link = (Carga['link_google_maps'])
-    listaF = []
-    listaA = []
-    for i in range(len(ids)):
-        if ids[i]>0:
-            listaA.append(i);listaA.append(str(num_ext[i]))
-            listaA.append(str(colonia[i]));listaA.append(str(deleg[i]))
-            listaA.append(str(ciudad[i]));listaA.append(str(ent[i]))
-            listaA.append(str(zon[i]));listaA.append(str(direccion[i]))
-            listaA.append(str(lat[i]));listaA.append(str(alt[i]))
-            listaA.append(str(link[i]));listaA.append(ids[i])
-            for j in range(len(listaA)):
-                if type(listaA[j]) == str:
-                    if len(listaA[j])>39:
-                        listaA[j]=listaA[j][:39]                        
-            listaF.append(tuple(listaA))
-            listaA = []
-    return tuple(listaF)
-
-#c = cargaUb('datos.xlsx')
-#print(c)
+carga = ModelsData()
+carga.drop_Tables()
+carga.create_tables()
+carga.delete_Info_Tables()
+tuplas = CargaDatos()
+#carga.selectEstado()
