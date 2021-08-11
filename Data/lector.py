@@ -1,7 +1,7 @@
 from modelsData import ModelsData
 import pandas as pd
 def CargaDatos():
-    xls = pd.ExcelFile("Jalisco2.xls")
+    xls = pd.ExcelFile("Jalisco.xls")
     Carga = xls.parse('Jalisco')
     Carga = Carga.fillna(0)
     ###Colonia
@@ -40,12 +40,11 @@ def CargaDatos():
         carga.insertColonia_batch(tuplaColonia)
         print("Cargando Colonia: ", len(tuplaColonia))        
     if tam<=99:
-        ###generacion de tuplas para  estado
-        tuplaEstado = tuple([tuple([int(i),nombre_estado[i],int(clave_estado[i])]) for i in range(inicial, final)])
+        tuplaEstado = tuple([tuple([int(i),nombre_estado[i],int(clave_estado[i])]) for i in range(inicial, tam)])
         ###Generacion de Municipio
-        tuplaMunicipio = tuple([tuple([int(i),nombre_municipio[i],nombre_ciudad_municipio[i], int(clave_municipio[i]),int(clave_ciudad_municipio[i]), int(i)]) for i in range(inicial, final)])
+        tuplaMunicipio = tuple([tuple([int(i),nombre_municipio[i],nombre_ciudad_municipio[i], int(clave_municipio[i]),int(clave_ciudad_municipio[i]), int(i)]) for i in range(inicial, tam)])
         ###Generacion de Colonia
-        tuplaColonia = tuple([tuple([int(i),int(codigo_postal_colonia[i]),nombre_colonia[i], tipo_asentamiento_colonia[i],int(codigo_postal_admin_colonia[i]), int(clave_asentamiento_colonia[i]),int(id_asentamiento_colonia[i]),zona_colonia[i],int(i),int(i)]) for i in range(inicial, final)])
+        tuplaColonia = tuple([tuple([int(i),int(codigo_postal_colonia[i]),nombre_colonia[i], tipo_asentamiento_colonia[i],int(codigo_postal_admin_colonia[i]), int(clave_asentamiento_colonia[i]),int(id_asentamiento_colonia[i]),zona_colonia[i],int(i),int(i)]) for i in range(inicial, tam)])
         carga.insertEstado_batch(tuplaEstado)
         print("Cargando Encuestado: ", len(tuplaEstado))
         carga.insertMunicipio_batch(tuplaMunicipio)

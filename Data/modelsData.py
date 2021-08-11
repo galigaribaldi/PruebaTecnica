@@ -6,12 +6,7 @@ from psycopg2.extensions import register_adapter, AsIs
 import numpy as np
 psycopg2.extensions.register_adapter(np.int64, psycopg2._psycopg.AsIs)
 psycopg2.extensions.register_adapter(np.float64, psycopg2._psycopg.AsIs)
-######Datos ordenados
-####1.- Devuelve los datos, opcion 1 decimales, opcion 2 Enteros
-####2.- Devuelve id de marca
-####3.- Devuelve la etiqueta
-###################Claves para la BD#####################
-###################     StratApp30       #####################
+
 class ModelsData():
     host = 'ec2-44-196-68-164.compute-1.amazonaws.com'
     database = 'ddaui1ic2hdida'
@@ -83,7 +78,8 @@ class ModelsData():
         conexion.commit()
         cursor.close()
         conexion.close()
-    print("Borrar Tablas")        
+        print("Borrar Tablas")        
+    
     def selectEstado(self):
         conexion = psycopg2.connect(host=self.host, database=self.database, user=self.user, password=self.password)
         cursor = conexion.cursor()
@@ -121,4 +117,89 @@ class ModelsData():
         extras.execute_batch(cursor, query, tuples, page_size=1000)
         conexion.commit()
         cursor.close()
-        conexion.close()                                
+        conexion.close()
+    
+    def consultaEstado(self,*args, opcion=1):
+        query = """SELECT * FROM estado order by esatado_id desc;"""
+        datos = pd.read_sql(query, con=psycopg2.connect(host=self.host, database=self.database, user=self.user, password=self.password))
+        if len(args) >0:
+            parametros = args[0]
+            datos = datos.sort_values(by = parametros, ascending=False)
+        if opcion == 3:
+            return datos
+        if opcion ==1:
+            diccionario = datos.to_json()
+            return diccionario
+        if opcion ==2:
+            diccionario = {"encuestado_id":datos["esatado_id"].to_list(),
+                           "nombre_entidad":datos["nombre_enetidad"].to_list(),"clave_entidad":datos["clave_entidad"].to_list()}
+            return diccionario
+        
+    def consultaMunicipio(self,*args, opcion=1):
+        query = """SELECT * FROM municipio order by esatado_id desc;"""
+        datos = pd.read_sql(query, con=psycopg2.connect(host=self.host, database=self.database, user=self.user, password=self.password))
+        if len(args) >0:
+            parametros = args[0]
+            datos = datos.sort_values(by = parametros, ascending=False)
+        if opcion == 3:
+            return datos
+        if opcion ==1:
+            diccionario = datos.to_json()
+            return diccionario
+        if opcion ==2:
+            diccionario = {"municipio_id":datos["municipio_id"].to_list(),
+                           "nombre_municipio":datos["nombre_municipio"].to_list(),
+                           "nombre_ciudad":datos["nombre_ciudad"].to_list(),
+                           "clave_municipio":datos["clave_municipio"].to_list(),
+                           "esatado_id":datos["esatado_id"].to_list()
+                           }
+            return diccionario
+    
+    def consultaColonia(self,*args, opcion=1,busqueda=False, busquedaNombre=False):
+        query = """SELECT * FROM colonia order by esatado_id desc;"""
+        datos = pd.read_sql(query, con=psycopg2.connect(host=self.host, database=self.database, user=self.user, password=self.password))
+        if len(args) >0:
+            parametros = args[0]
+            datos = datos.sort_values(by = parametros, ascending=False)
+        if opcion == 3:
+            return datos
+        if opcion ==1:
+            if type(busqueda) == int:
+                diccionario = datos[datos["codigo_postal_asentamiento"] == busqueda]
+                diccionario = diccionario.to_json()
+                return diccionario
+            if type(busquedaNombre) == str:
+                diccionario = datos[datos["nombre_colonia"] == busquedaNombre]
+                diccionario = diccionario.to_json()
+                return diccionario            
+            diccionario = datos.to_json()
+            return diccionario
+        if opcion ==2:
+            if type(busqueda) == int:
+                diccionario = datos[datos["codigo_postal_asentamiento"] == busqueda]
+                print()
+                diccionario = {"colonia_id":diccionario["colonia_id"].to_list(),
+                           "codigo_postal_asentamiento":diccionario["codigo_postal_asentamiento"].to_list(),
+                           "nombre_colonia":diccionario["nombre_colonia"].to_list(),
+                           "tipo_asentamiento":diccionario["tipo_asentamiento"].to_list(),
+                           "codigo_postal_administracion":diccionario["codigo_postal_administracion"].to_list(),
+                           "clave_tipo_asentamiento":diccionario["clave_tipo_asentamiento"].to_list(),
+                           "asentamiento_id":diccionario["asentamiento_id"].to_list(),
+                           "zona_asentamiento":diccionario["zona_asentamiento"].to_list(),
+                           "esatado_id":diccionario["esatado_id"].to_list(),
+                           "municipio_id":diccionario["municipio_id"].to_list()                 
+                           }
+                return diccionario
+            else:
+                diccionario = {"colonia_id":datos["colonia_id"].to_list(),
+                           "codigo_postal_asentamiento":datos["codigo_postal_asentamiento"].to_list(),
+                           "nombre_colonia":datos["nombre_colonia"].to_list(),
+                           "tipo_asentamiento":datos["tipo_asentamiento"].to_list(),
+                           "codigo_postal_administracion":datos["codigo_postal_administracion"].to_list(),
+                           "clave_tipo_asentamiento":datos["clave_tipo_asentamiento"].to_list(),
+                           "asentamiento_id":datos["asentamiento_id"].to_list(),
+                           "zona_asentamiento":datos["zona_asentamiento"].to_list(),
+                           "esatado_id":datos["esatado_id"].to_list(),
+                           "municipio_id":datos["municipio_id"].to_list()                 
+                           }
+                return diccionario
