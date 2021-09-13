@@ -1,0 +1,244 @@
+{
+    "info": {
+        "_postman_id": "873fbf35-0da3-4da6-a577-e5b409ee22f6",
+        "name": "PruebaTecnica",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [{
+            "name": "http://127.0.0.1:5000/vino/inserts",
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"nombre\": \"John Joe\", \n    \"email\": \"Correo@email.com\",\n    \"telefono\": 5559028269,\n    \"restaurant_link\": \"613f93850fbdfee4a5d1ee27\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/vino/select",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "vino",
+                        "select"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/vino/select",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/vino/select",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "vino",
+                        "select"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/vino/delete",
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"id\": \"613f93850fbdfee4a5d1ee27\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/vino/delete",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "vino",
+                        "delete"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/vino/update",
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"id\": \"613fa5583fd3765b52f5cab3\",\n    \"nombre\": \"Vino Azul\",\n    \"tipo_uva\": \"Uva verde\",\n    \"anio\": 2021,\n    \"pais\" : \"Mexico\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/vino/update",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "vino",
+                        "update"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/cliente/inserts",
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"nombre\": \"John Johne\", \n    \"email\": \"john@email.com\",\n    \"telefono\": 887813123,\n    \"restaurant_link\": \"613fc920cb780d14fc5eaf37\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/cliente/inserts",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "cliente",
+                        "inserts"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/cliente/select",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/vino/select",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "vino",
+                        "select"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/restaurant/inserts",
+            "request": {
+                "method": "POST",
+                "header": [{
+                    "key": "Content-Type",
+                    "value": "application/json",
+                    "type": "text"
+                }],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"nombre\": \"Carnes Garibaldi\", \n    \"direccion\": \"Avenida Siempre Viva 123\",\n    \"encargado_reference\": \"613fc920cb780d14fc5eaf37\",\n    \"wine_reference\": \"613fa5583fd3765b52f5cab3\"\n}"
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/restaurant/inserts",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "restaurant",
+                        "inserts"
+                    ]
+                }
+            },
+            "response": []
+        },
+        {
+            "name": "http://127.0.0.1:5000/restaurant/select Copy",
+            "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                    "mode": "raw",
+                    "raw": ""
+                },
+                "url": {
+                    "raw": "http://127.0.0.1:5000/vino/select",
+                    "protocol": "http",
+                    "host": [
+                        "127",
+                        "0",
+                        "0",
+                        "1"
+                    ],
+                    "port": "5000",
+                    "path": [
+                        "vino",
+                        "select"
+                    ]
+                }
+            },
+            "response": []
+        }
+    ]
+}
